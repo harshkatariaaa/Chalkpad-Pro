@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.json">
+  <title>Student Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    // Custom vector portrait of Anurag Verma in the Chitkara maroon polo as instant visual fallback
+    window.FALLBACK_AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 380" width="100%" height="100%">
+        <rect width="320" height="380" fill="#e8e2d8"/>
+        <!-- Shoulders & Maroon Chitkara Polo -->
+        <path d="M30 380 C40 280, 75 245, 160 245 C245 245, 280 280, 290 380 Z" fill="#881326"/>
+        <path d="M115 245 L160 290 L140 325 L100 260 Z" fill="#6d0f1e"/>
+        <path d="M205 245 L160 290 L180 325 L220 260 Z" fill="#6d0f1e"/>
+        <rect x="154" y="285" width="12" height="50" fill="#5a0b18" rx="2"/>
+        <circle cx="160" cy="298" r="2.5" fill="#f8fafc"/>
+        <circle cx="160" cy="318" r="2.5" fill="#f8fafc"/>
+        <!-- Chitkara University Logo on Chest -->
+        <rect x="194" y="325" width="18" height="18" rx="2" fill="#dc2626"/>
+        <path d="M198 338 L198 329 L208 329 L208 332 L201 332 L201 338 Z" fill="#ffffff"/>
+        <text x="194" y="352" fill="#ffffff" font-size="7.5" font-weight="bold" font-family="sans-serif">CHITKARA</text>
+        <text x="194" y="360" fill="#ffffff" font-size="5.5" font-weight="bold" font-family="sans-serif">UNIVERSITY</text>
+        <!-- Neck -->
+        <rect x="138" y="195" width="44" height="60" fill="#d29877" rx="6"/>
+        <path d="M142 225 C152 242, 168 242, 178 225" fill="none" stroke="#be8162" stroke-width="2.5"/>
+        <!-- Face Contour -->
+        <ellipse cx="160" cy="165" rx="52" ry="60" fill="#dfa583"/>
+        <!-- Styled Hair -->
+        <path d="M102 165 C95 105, 115 62, 160 60 C205 62, 225 105, 218 165 C208 115, 195 95, 160 95 C125 95, 112 115, 102 165 Z" fill="#141111"/>
+        <path d="M115 88 C128 65, 162 60, 185 70 C198 76, 206 94, 202 108 C188 88, 158 84, 128 94 Z" fill="#241e1e"/>
+        <!-- Beard & Moustache -->
+        <path d="M116 160 C116 220, 136 235, 160 235 C184 235, 204 220, 204 160 C198 195, 185 225, 160 225 C135 225, 122 195, 116 160 Z" fill="#1a1515"/>
+        <path d="M140 188 C148 181, 155 185, 160 188 C165 185, 172 181, 180 188 C172 194, 148 194, 140 188 Z" fill="#1a1515"/>
+        <path d="M150 198 C155 194, 165 194, 170 198 C165 201, 155 201, 150 198 Z" fill="#b96259"/>
+        <!-- Eyebrows & Eyes -->
+        <path d="M128 136 Q142 131, 151 136" stroke="#141111" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <path d="M169 136 Q178 131, 192 136" stroke="#141111" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <circle cx="140" cy="148" r="5.5" fill="#141111"/>
+        <circle cx="180" cy="148" r="5.5" fill="#141111"/>
+        <circle cx="142" cy="146" r="1.8" fill="#ffffff"/>
+        <circle cx="182" cy="146" r="1.8" fill="#ffffff"/>
+        <path d="M160 146 L155 168 L165 168 Z" fill="#c38666"/>
+      </svg>
+    `);
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      box-sizing: border-box;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      background-color: #121212;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #mobile-viewport {
+      width: 100%;
+      max-width: 414px;
+      height: 100vh;
+      max-height: 896px;
+      background-color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+    }
+    @media (max-width: 450px) {
+      body {
+        background-color: #ffffff;
+      }
+      #mobile-viewport {
+        max-width: 100%;
+        max-height: 100%;
+        height: 100dvh;
+        box-shadow: none;
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+      .bottom-nav-bar {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+    }
+    .screen-scroll::-webkit-scrollbar {
+      width: 3px;
+    }
+    .screen-scroll::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
+    }
+    .profile-banner-bg {
+      background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+      position: relative;
+    }
+    .profile-banner-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="mobile-viewport">
+    
+    <main class="flex-1 relative overflow-hidden bg-[#fafafa]">
+
+      <!-- Hidden file input to pick photo directly from device gallery -->
+      <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+
+      <!-- ================= 1. PROFILE SCREEN ================= -->
+      <section id="screen-profile" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 transition-opacity duration-150">
+        <!-- Hero Blue Profile Card -->
+        <div class="profile-banner-bg text-white pt-6 pb-6 px-4 text-center shadow-xs relative">
+          <!-- Clickable Avatar: Tap to Open Personal Info -->
+          <div class="relative inline-block cursor-pointer active:scale-95 transition-transform" onclick="openPersonalInfo()" title="Tap to view Personal Details">
+            <div class="w-24 h-28 mx-auto bg-gray-100 rounded-xl overflow-hidden border-2 border-white shadow-md flex items-center justify-center relative">
+              <img 
+                src="student.png" 
+                alt="Student Photo" 
+                id="profile-img-main"
+                class="w-full h-full object-cover student-photo-target"
+                onerror="handleImgError(this)"
+              />
+            </div>
+          </div>
+
+          <h2 id="hero-name" class="text-xl font-bold tracking-wide mt-3 uppercase">ANURAG VERMA</h2>
+          <p id="hero-roll-batch" class="text-xs text-blue-100 font-normal mt-1 px-4 leading-relaxed">
+            Roll. No: 2510991027, 2025-BE-CSE-3 SEM 3 SEM
+          </p>
+          <div class="mt-2 text-sm font-normal text-blue-50">Profile</div>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="p-4">
+          <h3 class="text-base font-bold text-gray-800 mb-3 px-1">Settings</h3>
+          
+          <div class="grid grid-cols-3 gap-3">
+            <!-- 1. Session Card -->
+            <button onclick="openSubScreen('session')" class="bg-white border border-gray-200/80 rounded-xl p-3 flex flex-col items-center justify-center text-center shadow-xs active:bg-gray-50 active:scale-[0.98] transition">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-1 text-sky-500">
+                <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="16" rx="2" stroke-width="1.8" stroke="#0284c7"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" stroke="#10b981" d="M9 12l2 2 4-4"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-gray-700 leading-tight">Session</span>
+            </button>
+
+            <!-- 2. Change Password Card -->
+            <button onclick="openSubScreen('change-password')" class="bg-white border border-gray-200/80 rounded-xl p-3 flex flex-col items-center justify-center text-center shadow-xs active:bg-gray-50 active:scale-[0.98] transition">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-1">
+                <svg class="w-9 h-9 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" stroke="#2563eb" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-gray-700 leading-tight">Change Password</span>
+            </button>
+
+            <!-- 3. Privacy Card -->
+            <button onclick="openSubScreen('privacy')" class="bg-white border border-gray-200/80 rounded-xl p-3 flex flex-col items-center justify-center text-center shadow-xs active:bg-gray-50 active:scale-[0.98] transition">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-1">
+                <svg class="w-9 h-9 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" stroke="#ef4444" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-gray-700 leading-tight">Privacy</span>
+            </button>
+
+            <!-- Reset Notifications Card -->
+            <button onclick="showToast('Notifications reset successfully')" class="bg-white border border-gray-200/80 rounded-xl p-3 flex flex-col items-center justify-center text-center shadow-xs active:bg-gray-50 active:scale-[0.98] transition">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-1">
+                <svg class="w-9 h-9 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" stroke="#059669" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-gray-700 leading-tight">Reset Notifications</span>
+            </button>
+
+            <!-- Logout Card -->
+            <button onclick="showToast('Logged out of student portal')" class="bg-white border border-gray-200/80 rounded-xl p-3 flex flex-col items-center justify-center text-center shadow-xs active:bg-gray-50 active:scale-[0.98] transition">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-1">
+                <svg class="w-9 h-9 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" stroke="#334155" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+              </div>
+              <span class="text-xs font-semibold text-gray-700 leading-tight">Logout</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. PERSONAL INFO SUB-SCREEN ================= -->
+      <section id="screen-personal-info" class="screen-view absolute inset-0 bg-white flex flex-col overflow-y-auto screen-scroll pb-16 hidden transition-all duration-200 z-40">
+        <!-- Top Navigation Header -->
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center z-20 shadow-xs">
+          <button onclick="closePersonalInfo()" class="p-1 -ml-1 text-gray-800 hover:text-black active:scale-90 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-[15px] font-bold text-gray-900 ml-3 tracking-tight">Personal Info</h1>
+        </div>
+
+        <div class="p-4 space-y-5 text-gray-800">
+          
+          <!-- Student's Details Section -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-3.5 tracking-tight">
+              Student's Details
+            </h3>
+
+            <!-- Centered Photo (tap to change picture if desired) -->
+            <div class="w-[82px] h-[100px] bg-gray-100 rounded-lg overflow-hidden border border-gray-300 mx-auto mb-4 shadow-2xs cursor-pointer" onclick="document.getElementById('photo-file-input').click()" title="Tap to change / upload photo">
+              <img 
+                src="student.png" 
+                alt="Student Photo" 
+                id="details-img"
+                class="w-full h-full object-cover student-photo-target"
+                onerror="handleImgError(this)"
+              />
+            </div>
+
+            <!-- Justified details grid with aligned colons -->
+            <div class="space-y-1.5" id="container-student-details"></div>
+          </div>
+
+          <!-- Student's Custom Field(s) -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-2.5 tracking-tight">
+              Student's Custom Field(s)
+            </h3>
+            <div class="space-y-1.5" id="container-custom-fields"></div>
+          </div>
+
+          <!-- Permanent Address -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-2.5 tracking-tight">
+              Permanent Address
+            </h3>
+            <div class="space-y-1.5" id="container-address"></div>
+          </div>
+
+          <!-- Father's Details -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-2.5 tracking-tight">
+              Father's Details
+            </h3>
+            <div class="space-y-1.5" id="container-father"></div>
+          </div>
+
+          <!-- Mother's Details -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-2.5 tracking-tight">
+              Mother's Details
+            </h3>
+            <div class="space-y-1.5" id="container-mother"></div>
+          </div>
+
+          <!-- Guardian's Details -->
+          <div>
+            <h3 class="text-[13px] font-bold text-gray-900 border-b border-gray-200 pb-1 mb-2.5 tracking-tight">
+              Guardian's Details
+            </h3>
+            <div class="space-y-1.5" id="container-guardian"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= 3. MENU SCREEN ================= -->
+      <section id="screen-menu" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-24 hidden">
+        <div class="profile-banner-bg text-white pt-5 pb-5 px-4 text-center shadow-xs">
+          <div class="w-20 h-24 mx-auto bg-gray-100 rounded-xl overflow-hidden border-2 border-white shadow-md cursor-pointer" onclick="openPersonalInfo()">
+            <img src="student.png" alt="Student" class="w-full h-full object-cover student-photo-target" onerror="handleImgError(this)"/>
+          </div>
+          <h2 id="menu-hero-name" class="text-lg font-bold tracking-wide mt-2 uppercase">ANURAG VERMA</h2>
+          <p id="menu-hero-batch" class="text-[11px] text-blue-100 font-normal">Roll. No: 2510991027, 2025-BE-CSE-3 SEM 3 SEM</p>
+          <div class="mt-1 text-xs text-blue-100 font-medium">Student</div>
+        </div>
+
+        <div class="p-3.5 space-y-4 text-gray-800">
+          <!-- 1. Frequently Used -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Frequently Used</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('apply-leave')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <rect x="12" y="20" width="24" height="16" rx="2" fill="#38bdf8"/>
+                    <circle cx="18" cy="28" r="2.5" fill="#ef4444"/>
+                    <circle cx="24" cy="28" r="2.5" fill="#eab308"/>
+                    <circle cx="30" cy="28" r="2.5" fill="#ef4444"/>
+                    <path d="M18 28H30" stroke="#0369a1" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Apply Duty/Medical Leave</span>
+              </button>
+
+              <button onclick="openSubScreen('fee-history')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <rect x="6" y="14" width="36" height="22" rx="4" fill="#38bdf8"/>
+                    <rect x="10" y="17" width="28" height="16" rx="2" fill="#e0f2fe"/>
+                    <circle cx="24" cy="25" r="4.5" fill="#0284c7"/>
+                    <text x="24" y="28" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">₹</text>
+                    <path d="M16 10H32L28 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32 38H16L20 42" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Fee Payment History</span>
+              </button>
+
+              <button onclick="openSubScreen('grade-card')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <rect x="8" y="10" width="32" height="28" rx="3" fill="#e0f2fe" stroke="#93c5fd" stroke-width="1.5"/>
+                    <rect x="12" y="15" width="10" height="12" rx="2" fill="#3b82f6"/>
+                    <circle cx="17" cy="19" r="2.5" fill="#fde047"/>
+                    <path d="M14 24C14 22 20 22 20 24" stroke="#fde047" stroke-width="1.5"/>
+                    <rect x="25" y="16" width="11" height="2" rx="1" fill="#93c5fd"/>
+                    <rect x="25" y="21" width="9" height="2" rx="1" fill="#93c5fd"/>
+                    <rect x="13" y="31" width="22" height="2.5" rx="1" fill="#3b82f6"/>
+                    <path d="M32 8L36 12L34 16L30 16L28 12Z" fill="#ef4444"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Grade Card</span>
+              </button>
+
+              <button onclick="openSubScreen('apply-gatepass')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <circle cx="17" cy="27" r="3.5" fill="#ef4444"/>
+                    <circle cx="31" cy="27" r="3.5" fill="#f59e0b"/>
+                    <circle cx="24" cy="33" r="3.5" fill="#10b981"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Apply Gatepass</span>
+              </button>
+
+              <button onclick="openSubScreen('details-gatepass')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1 relative">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <circle cx="18" cy="26" r="2.5" fill="#facc15"/>
+                    <circle cx="28" cy="26" r="2.5" fill="#facc15"/>
+                  </svg>
+                  <path d="M26 22 L38 34 L32 35 L35 41 L31 42 L28 36 L24 39 Z" fill="#dc2626" class="absolute -bottom-1 -right-1"/>
+                  <svg class="w-5 h-5 absolute -bottom-1 -right-1" viewBox="0 0 24 24" fill="#ef4444">
+                    <path d="M3 3l7 18 3-7 7-3L3 3z"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">View Details Gatepass</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Academics -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Academics</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('time-table')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-1">
+                  <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="16" rx="2" stroke-width="1.8"/>
+                    <path stroke-linecap="round" stroke-width="1.5" d="M3 9h18M9 4v16M15 4v16M3 14h18"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Time Table</span>
+              </button>
+
+              <button onclick="openSubScreen('attendance')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="7" r="4" fill="#fb923c"/>
+                    <circle cx="8" cy="25" r="3.5" fill="#38bdf8"/>
+                    <circle cx="24" cy="25" r="3.5" fill="#ef4444"/>
+                    <circle cx="16" cy="25" r="3.5" fill="#2563eb"/>
+                    <path d="M16 11V18M8 21.5L16 18L24 21.5" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Attendance Subjectwise</span>
+              </button>
+
+              <button onclick="openSubScreen('subjects')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <path d="M5 8C5 6.89543 5.89543 6 7 6H13L16 9H25C26.1046 9 27 9.89543 27 11V22C27 23.1046 26.1046 24 25 24H7C5.89543 24 5 23.1046 5 22V8Z" fill="#f97316"/>
+                    <rect x="9" y="14" width="6" height="11" rx="1.5" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1.2"/>
+                    <rect x="17" y="14" width="6" height="11" rx="1.5" fill="#e0f2fe" stroke="#38bdf8" stroke-width="1.2"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Subjects</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Examination -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Examination</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('grade-card')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <rect x="8" y="10" width="32" height="28" rx="3" fill="#e0f2fe" stroke="#93c5fd" stroke-width="1.5"/>
+                    <rect x="12" y="15" width="10" height="12" rx="2" fill="#3b82f6"/>
+                    <circle cx="17" cy="19" r="2.5" fill="#fde047"/>
+                    <path d="M14 24C14 22 20 22 20 24" stroke="#fde047" stroke-width="1.5"/>
+                    <rect x="25" y="16" width="11" height="2" rx="1" fill="#93c5fd"/>
+                    <rect x="25" y="21" width="9" height="2" rx="1" fill="#93c5fd"/>
+                    <rect x="13" y="31" width="22" height="2.5" rx="1" fill="#3b82f6"/>
+                    <path d="M32 8L36 12L34 16L30 16L28 12Z" fill="#ef4444"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Grade Card</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. Fees -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Fees</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <!-- Fee Payment History -->
+              <button onclick="openSubScreen('fee-history')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <rect x="6" y="14" width="36" height="22" rx="4" fill="#38bdf8"/>
+                    <rect x="10" y="17" width="28" height="16" rx="2" fill="#e0f2fe"/>
+                    <circle cx="24" cy="25" r="4.5" fill="#0284c7"/>
+                    <text x="24" y="28" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">₹</text>
+                    <path d="M16 10H32L28 6" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32 38H16L20 42" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Fee Payment History</span>
+              </button>
+
+              <!-- Fee for JulDec2026 -->
+              <button onclick="showFeeDetail('JulDec2026')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mb-1 border border-amber-300">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="12" rx="2" stroke-width="1.8"/>
+                    <path d="M7 11L10 8L13 12L17 7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 20H16M12 16V20" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Fee for JulDec2026</span>
+              </button>
+
+              <div class="invisible"></div>
+
+              <!-- Empty spacer to maintain vertical column layout from screenshot -->
+              <div class="invisible"></div>
+
+              <!-- Fee for Jul-Dec2025 -->
+              <button onclick="showFeeDetail('Jul-Dec2025')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mb-1 border border-amber-300">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="12" rx="2" stroke-width="1.8"/>
+                    <path d="M7 11L10 8L13 12L17 7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 20H16M12 16V20" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Fee for Jul-Dec2025</span>
+              </button>
+
+              <div class="invisible"></div>
+              <div class="invisible"></div>
+
+              <!-- Fee for JanJun2026 -->
+              <button onclick="showFeeDetail('JanJun2026')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mb-1 border border-amber-300">
+                  <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="12" rx="2" stroke-width="1.8"/>
+                    <path d="M7 11L10 8L13 12L17 7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 20H16M12 16V20" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Fee for JanJun2026</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. Leave -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Leave</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('apply-leave')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <rect x="12" y="20" width="24" height="16" rx="2" fill="#38bdf8"/>
+                    <circle cx="18" cy="28" r="2.5" fill="#ef4444"/>
+                    <circle cx="24" cy="28" r="2.5" fill="#eab308"/>
+                    <circle cx="30" cy="28" r="2.5" fill="#ef4444"/>
+                    <path d="M18 28H30" stroke="#0369a1" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Apply Duty/Medical Leave</span>
+              </button>
+
+              <button onclick="openSubScreen('apply-gatepass')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <circle cx="17" cy="27" r="3.5" fill="#ef4444"/>
+                    <circle cx="31" cy="27" r="3.5" fill="#f59e0b"/>
+                    <circle cx="24" cy="33" r="3.5" fill="#10b981"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Apply Gatepass</span>
+              </button>
+
+              <button onclick="openSubScreen('details-gatepass')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1 relative">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#0284c7"/>
+                    <circle cx="18" cy="26" r="2.5" fill="#facc15"/>
+                    <circle cx="28" cy="26" r="2.5" fill="#facc15"/>
+                  </svg>
+                  <svg class="w-5 h-5 absolute -bottom-1 -right-1" viewBox="0 0 24 24" fill="#ef4444">
+                    <path d="M3 3l7 18 3-7 7-3L3 3z"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">View Details Gatepass</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 6. Feedback -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Feedback</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('feedback-survey')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1 relative">
+                  <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none">
+                    <path d="M6 12C6 9.79086 7.79086 8 10 8H20L25 14H38C40.2091 14 42 15.7909 42 18V38C42 40.2091 40.2091 42 38 42H10C7.79086 42 6 40.2091 6 38V12Z" fill="#f59e0b"/>
+                    <rect x="14" y="20" width="20" height="14" rx="2" fill="#ffffff"/>
+                    <path d="M18 25H30M18 29H26" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <svg class="w-5 h-5 absolute -bottom-1 -right-1" viewBox="0 0 24 24" fill="#ef4444">
+                    <path d="M3 3l7 18 3-7 7-3L3 3z"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">Student Experience Survey</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 7. No Dues Verification -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">No Dues Verification</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('no-dues')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8">
+                    <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">No Dues Verification</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 8. Greetings -->
+          <div>
+            <h3 class="text-xs font-bold text-gray-700 mb-2 px-1">Greetings</h3>
+            <div class="grid grid-cols-3 gap-2.5">
+              <button onclick="openSubScreen('greetings')" class="bg-white border border-gray-200/90 rounded-xl p-2.5 flex flex-col items-center justify-center text-center shadow-2xs active:bg-gray-50 active:scale-[0.97] transition min-h-[95px]">
+                <div class="w-10 h-10 flex items-center justify-center mb-1">
+                  <div class="flex items-center space-x-1">
+                    <span class="text-xl">🎆</span>
+                    <span class="text-xl -ml-2">💬</span>
+                  </div>
+                </div>
+                <span class="text-[10px] font-medium text-gray-700 leading-tight">My Greetings</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= MODAL SUB-SCREEN FOR BUTTONS ================= -->
+      <section id="screen-subscreen" class="screen-view absolute inset-0 bg-white flex flex-col overflow-y-auto screen-scroll pb-16 hidden z-30 transition-all duration-150">
+        <!-- Top Navigation Header -->
+        <div id="subscreen-header" class="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between z-20 shadow-xs">
+          <div class="flex items-center">
+            <button onclick="closeSubScreen()" class="p-1 -ml-1 text-gray-800 hover:text-black active:scale-90 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <h1 id="subscreen-title" class="text-base font-bold text-gray-900 ml-3 tracking-tight">Details</h1>
+          </div>
+          <span id="subscreen-badge" class="text-[10px] bg-blue-50 text-blue-700 font-semibold px-2 py-0.5 rounded border border-blue-200 hidden">Active</span>
+        </div>
+
+        <div id="subscreen-body" class="p-0"></div>
+      </section>
+
+      <!-- ================= 4. TIMELINE SCREEN ================= -->
+      <section id="screen-timeline" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 hidden">
+        <div class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-10">
+          <div id="timeline-user-header" class="text-[12px] font-bold text-gray-800 truncate uppercase">ANURAG VERMA(2025-BE-CSE-3 SEM-3 SEM)</div>
+          
+          <div class="flex space-x-6 text-xs font-semibold text-gray-500 mt-3 border-b border-gray-100">
+            <span class="text-sky-600 border-b-2 border-sky-500 pb-2 cursor-pointer font-bold">All</span>
+            <span class="pb-2 cursor-pointer">Circulars</span>
+            <span class="pb-2 cursor-pointer">Resources</span>
+            <span class="pb-2 cursor-pointer">Planners</span>
+          </div>
+        </div>
+
+        <div class="p-3 space-y-3">
+          <div class="bg-white rounded-lg p-3.5 border border-gray-200/90 shadow-2xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="bg-amber-400 text-white font-bold text-[10px] px-2 py-0.5 rounded tracking-wide">Circular</span>
+              <span class="bg-amber-500 text-white font-bold text-[9px] px-1.5 py-0.5 rounded tracking-wider">NEW</span>
+            </div>
+            <h4 class="text-xs font-bold text-gray-900 leading-snug">
+              RE-APPEAR RESULT OF BE CSE AIML AND AIFT BATCH 2025 2ND SEM SWAYAM SUBJECTS
+            </h4>
+            <p class="text-[11px] text-gray-600 mt-1.5 line-clamp-2">
+              The Re-appear results of the following programs are declared; 1. BE CSE AIML & AIFT BATCH 2025 (SWAYAM SUBJECTS) 2N...
+            </p>
+            <div class="mt-3 flex items-center justify-between text-[11px]">
+              <button onclick="showToast('Downloading Result PDF...')" class="text-sky-600 font-bold hover:underline">View Details</button>
+              <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-medium border border-emerald-200">📅 19-09-2026</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg p-3.5 border border-gray-200/90 shadow-2xs">
+            <div class="flex items-center justify-between mb-2">
+              <span class="bg-amber-400 text-white font-bold text-[10px] px-2 py-0.5 rounded tracking-wide">Circular</span>
+              <span class="bg-amber-500 text-white font-bold text-[9px] px-1.5 py-0.5 rounded tracking-wider">NEW</span>
+            </div>
+            <h4 class="text-xs font-bold text-gray-900 leading-snug">
+              RE-APPEAR RESULT OF BE AE BATCH 2025 2ND SEM MAY 2026
+            </h4>
+            <p class="text-[11px] text-gray-600 mt-1.5 line-clamp-2">
+              The Re-appear results of the following programs are declared; 1. BE AE BATCH 2025 2ND SEM MAY 2026
+            </p>
+            <div class="mt-3 flex items-center justify-between text-[11px]">
+              <button onclick="showToast('Opening Notice PDF...')" class="text-sky-600 font-bold hover:underline">View Details</button>
+              <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-medium border border-emerald-200">📅 19-09-2026</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. MESSAGES SCREEN ================= -->
+      <section id="screen-messages" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 hidden">
+        <div class="bg-white border-b border-gray-200 px-4 py-3.5 text-center font-bold text-sm text-gray-800">
+          Messages
+        </div>
+        <div class="divide-y divide-gray-200 bg-white border-b border-gray-200">
+          <button onclick="showToast('Opening Staff Conversations')" class="w-full px-4 py-3.5 flex items-center justify-between text-left active:bg-gray-50">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-[#10b981]/15 text-[#10b981] flex items-center justify-center border border-[#10b981]/30">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="text-sm font-medium text-gray-800">Staff Conversations</span>
+            </div>
+            <span class="text-xs font-bold text-blue-600">1</span>
+          </button>
+
+          <button onclick="showToast('Opening Sent Messages')" class="w-full px-4 py-3.5 flex items-center justify-between text-left active:bg-gray-50">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="text-sm font-medium text-gray-800">Sent Messages</span>
+            </div>
+          </button>
+        </div>
+
+        <button onclick="showToast('Compose message to faculty')" class="absolute bottom-20 right-4 w-14 h-14 bg-[#ef4444] rounded-full text-white shadow-lg flex items-center justify-center text-3xl font-light active:scale-95 transition">
+          +
+        </button>
+      </section>
+
+      <!-- ================= 6. NOTIFICATIONS SCREEN ================= -->
+      <section id="screen-notifications" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 hidden">
+        <div class="bg-white border-b border-gray-200 px-4 py-3.5 text-center font-bold text-sm text-gray-800">
+          Notifications
+        </div>
+        <div class="p-4 bg-white border-b border-gray-200 cursor-pointer active:bg-gray-50" onclick="showToast('Opening 272 unread notices')">
+          <h4 class="text-sm font-bold text-gray-800">You have 272 new Circulars</h4>
+          <p class="text-xs text-gray-500 mt-0.5">Tap here to view them</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Toast message feedback -->
+    <div id="toast-box" class="absolute top-12 left-1/2 -translate-x-1/2 bg-gray-900/90 text-white text-xs px-3.5 py-1.5 rounded-full shadow-lg pointer-events-none opacity-0 transition-opacity duration-200 z-50 text-center max-w-[85%]">
+      Notification text
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav-bar absolute bottom-0 inset-x-0 bg-white border-t border-gray-200 h-14 flex items-center justify-around z-30 shadow-xs">
+      <!-- 1. Timeline -->
+      <button onclick="switchTab('timeline')" id="nav-timeline" class="nav-item flex-1 flex flex-col items-center justify-center py-1 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="text-[10px] mt-0.5">Timeline</span>
+      </button>
+
+      <!-- 2. Messages -->
+      <button onclick="switchTab('messages')" id="nav-messages" class="nav-item flex-1 flex flex-col items-center justify-center py-1 text-gray-500 relative">
+        <div class="relative">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <span class="absolute -top-1.5 -right-2 bg-red-500 text-white rounded-full text-[9px] w-4 h-4 flex items-center justify-center font-bold">1</span>
+        </div>
+        <span class="text-[10px] mt-0.5">Messages</span>
+      </button>
+
+      <!-- 3. Notifications -->
+      <button onclick="switchTab('notifications')" id="nav-notifications" class="nav-item flex-1 flex flex-col items-center justify-center py-1 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        <span class="text-[10px] mt-0.5">Notifications</span>
+      </button>
+
+      <!-- 4. Profile (Active Default) -->
+      <button onclick="switchTab('profile')" id="nav-profile" class="nav-item flex-1 flex flex-col items-center justify-center py-1 text-sky-600 font-bold">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+        <span class="text-[10px] mt-0.5">Profile</span>
+      </button>
+
+      <!-- 5. Menu -->
+      <button onclick="switchTab('menu')" id="nav-menu" class="nav-item flex-1 flex flex-col items-center justify-center py-1 text-gray-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px] mt-0.5">Menu</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. CONFIGURATION FOR STUDENT DETAILS
+    // ==========================================
+    const STUDENT_DATA = {
+      name: "ANURAG VERMA",
+      rollNo: "2510991027",
+      programCode: "2025-BE-CSE-3 SEM 3 SEM",
+      photoUrl: "student.png",
+      
+      details: [
+        { label: "Name", value: "ANURAG VERMA" },
+        { label: "Roll No.", value: "2510991027" },
+        { label: "Gender", value: "Male" },
+        { label: "D.O.B.", value: "22-11-2006" },
+        { label: "Category", value: "General" },
+        { label: "Mobile No.", value: "6284840054" },
+        { label: "Email", value: "anurag1027.becse25@chitkara.edu.in" },
+        { label: "Date of Admission", value: "29-05-2025" }
+      ],
+
+      customFields: [
+        { label: "Student Personal Email Id", value: "anuragverma628484@gmail.com" },
+        { label: "Degree Name for ID", value: "BE - Computer Science & Engineering" },
+        { label: "Batch Duration For ID", value: "2025-2029" },
+        { label: "College Name for ID", value: "Chitkara University Institute of Engineering & Technology" },
+        { label: "Blood Group", value: "A-" }
+      ],
+
+      address: [
+        { label: "Address", value: "House no. 75,Street no. 4,Old Bishan Nagar,Patiala,punjab-147001" },
+        { label: "City", value: "Patiala" },
+        { label: "Pin Code", value: "147001" },
+        { label: "State", value: "Punjab" },
+        { label: "Country", value: "India" }
+      ],
+
+      father: [
+        { label: "Name", value: "Mr. Rakesh Kumar Verma" },
+        { label: "Mobile No.", value: "9877123552" },
+        { label: "Email", value: "rakeshverma2710@gmail.com" }
+      ],
+
+      mother: [
+        { label: "Name", value: "Mrs. Nisha Verma" },
+        { label: "Mobile No.", value: "7973591434" }
+      ],
+
+      guardian: [
+        { label: "Name", value: "Anurag Verma" },
+        { label: "Mobile No.", value: "6284840054" }
+      ]
+    };
+
+    // Resilient image loading with auto fallback to Chitkara SVG portrait
+    function handleImgError(img) {
+      if (img.dataset.failedOnce) {
+        img.src = window.FALLBACK_AVATAR;
+      } else {
+        img.dataset.failedOnce = "true";
+        img.src = "student.jpg"; // Try .jpg if .png is not found
+      }
+    }
+
+    // Justified Row Renderer: Perfect vertical colon alignment matching screenshot
+    function renderRows(containerId, list) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = list.map(item => `
+        <div class="flex items-start text-[11.5px] leading-[1.4] py-[1.5px]">
+          <span class="w-[145px] shrink-0 font-medium text-gray-900 tracking-tight">${item.label}</span>
+          <span class="w-3.5 shrink-0 text-gray-700 text-center font-normal">:</span>
+          <span class="flex-1 text-gray-900 break-words font-normal pl-0.5">${item.value}</span>
+        </div>
+      `).join('');
+    }
+
+    function syncStudentData() {
+      const stored = localStorage.getItem('student_photo_custom');
+      if (stored) {
+        STUDENT_DATA.photoUrl = stored;
+      }
+
+      // Sync names & roll on headers
+      const nameElements = ['hero-name', 'menu-hero-name'];
+      nameElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = STUDENT_DATA.name;
+      });
+
+      const batchElements = ['hero-roll-batch', 'menu-hero-batch'];
+      batchElements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = `Roll. No: ${STUDENT_DATA.rollNo}, ${STUDENT_DATA.programCode}`;
+      });
+
+      const timelineHeader = document.getElementById('timeline-user-header');
+      if (timelineHeader) {
+        timelineHeader.innerText = `${STUDENT_DATA.name}(${STUDENT_DATA.programCode.replace(/\s+/g, '-')})`;
+      }
+
+      // Sync photos
+      document.querySelectorAll('.student-photo-target').forEach(img => {
+        img.src = STUDENT_DATA.photoUrl;
+      });
+
+      // Render Justified Personal Info grids
+      renderRows('container-student-details', STUDENT_DATA.details);
+      renderRows('container-custom-fields', STUDENT_DATA.customFields);
+      renderRows('container-address', STUDENT_DATA.address);
+      renderRows('container-father', STUDENT_DATA.father);
+      renderRows('container-mother', STUDENT_DATA.mother);
+      renderRows('container-guardian', STUDENT_DATA.guardian);
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          STUDENT_DATA.photoUrl = e.target.result;
+          try {
+            localStorage.setItem('student_photo_custom', e.target.result);
+          } catch(err) {}
+          syncStudentData();
+          showToast('Photo updated successfully!');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    let selectedSession = 'JulDec2026';
+
+    function selectSession(sessionName) {
+      selectedSession = sessionName;
+      openSubScreen('session');
+      showToast(`Selected: ${sessionName}`);
+    }
+
+    function showFeeDetail(session) {
+      openSubScreen('fee-history');
+      showToast(`Fee detail for ${session}`);
+    }
+
+    // Sub-screens definitions including Session, Change Password, Privacy
+    const SUB_SCREEN_CONTENTS = {
+      'session': {
+        title: 'Session',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => {
+          const sessions = [
+            "Jul-Dec 2022",
+            "JanJun2023",
+            "Jul-Dec2023",
+            "JanJun2024",
+            "Jul-Dec2024",
+            "JanJun2025",
+            "Jul-Dec2025",
+            "JanJun2026",
+            "JulDec2026"
+          ];
+          return `
+            <div class="divide-y divide-gray-200 bg-white">
+              ${sessions.map(s => `
+                <div onclick="selectSession('${s}')" class="py-3.5 px-4 flex items-center justify-between text-[13.5px] text-gray-800 cursor-pointer active:bg-gray-50">
+                  <span>${s}</span>
+                  ${s === selectedSession ? `
+                    <div class="w-5 h-5 rounded-full bg-[#10b981] flex items-center justify-center text-white text-xs">
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                    </div>
+                  ` : ''}
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      },
+      'change-password': {
+        title: 'Change Password',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="p-4 space-y-4">
+            <!-- Password Policy Box -->
+            <div class="bg-[#f0f7ff] border border-[#d6e8ff] rounded-xl p-4 text-[13px] text-gray-800 shadow-2xs">
+              <div class="flex items-center text-sky-700 font-bold text-[14px] mb-2">
+                <span class="mr-2 text-base">🔐</span> Password Policy
+              </div>
+              <div class="space-y-1.5 pl-1 text-[12.5px] text-gray-700">
+                <div class="flex items-center space-x-2">
+                  <span class="text-[#0284c7] font-bold">✔</span>
+                  <span>At least <strong class="font-bold text-[#0369a1]">one uppercase letter</strong></span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-[#0284c7] font-bold">✔</span>
+                  <span>At least <strong class="font-bold text-[#0369a1]">one lowercase letter</strong></span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-[#0284c7] font-bold">✔</span>
+                  <span>At least <strong class="font-bold text-[#0369a1]">one number</strong></span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-[#0284c7] font-bold">✔</span>
+                  <span>At least <strong class="font-bold text-[#0369a1]">one special character</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inputs -->
+            <div class="space-y-3 pt-2">
+              <input type="password" placeholder="Old Password" class="w-full border border-gray-300 rounded-lg p-3 text-xs focus:outline-none focus:border-blue-500 bg-white placeholder-gray-400">
+              <input type="password" placeholder="New Password" class="w-full border border-gray-300 rounded-lg p-3 text-xs focus:outline-none focus:border-blue-500 bg-white placeholder-gray-400">
+              <input type="password" placeholder="Confirm Password" class="w-full border border-gray-300 rounded-lg p-3 text-xs focus:outline-none focus:border-blue-500 bg-white placeholder-gray-400">
+            </div>
+
+            <div class="pt-4 flex justify-center">
+              <button onclick="showToast('Password updated successfully!'); closeSubScreen();" class="w-48 bg-[#ef4444] text-white py-2.5 rounded-lg font-medium text-sm shadow-xs active:bg-[#dc2626] transition">
+                Change
+              </button>
+            </div>
+          </div>
+        `
+      },
+      'privacy': {
+        title: 'Privacy',
+        badge: '',
+        isPrivacy: true,
+        getHtml: () => `
+          <div class="flex flex-col h-full min-h-[500px] justify-between bg-white text-gray-900 p-4">
+            <div>
+              <!-- Android Robot Logo -->
+              <div class="mb-4">
+                <svg class="w-12 h-12 text-[#9ec437]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v6c0 .83.67 1.5 1.5 1.5S5 16.33 5 15.5v-6C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-6c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.67 2.24 12.63 2 11.5 2c-1.13 0-2.17.24-3.14.63L6.88 1.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3C5.78 4.29 4.67 5.99 4.54 8h13.92c-.13-2.01-1.24-3.71-2.93-4.84zM9 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                </svg>
+              </div>
+
+              <h2 class="text-xl font-bold text-black tracking-tight mb-3">Webpage not available</h2>
+              <p class="text-xs text-gray-800 leading-relaxed">
+                The webpage at <strong class="font-bold break-all">file:///android_asset/www/PRIVACY_POLICY</strong> could not be loaded because:
+              </p>
+              <p class="text-xs font-mono text-gray-700 mt-3">
+                net::ERR_FILE_NOT_FOUND
+              </p>
+            </div>
+
+            <!-- Dark Navy Blue Bottom Bar -->
+            <div class="-mx-4 -mb-4 bg-[#1e3a5f] text-white py-3 px-5 flex items-center cursor-pointer active:bg-[#162a45]" onclick="closeSubScreen()">
+              <span class="text-sm font-medium tracking-wide">Close</span>
+            </div>
+          </div>
+        `
+      },
+      'apply-leave': {
+        title: 'Apply Duty/Medical Leave',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="bg-white min-h-[580px] flex flex-col">
+            <!-- Top Tabs -->
+            <div class="flex border-b border-gray-200 text-[14px]">
+              <button class="flex-1 py-3 text-center font-bold text-[#ef4444] border-b-2 border-[#ef4444]">
+                Apply Leave
+              </button>
+              <button onclick="showToast('No leave history available')" class="flex-1 py-3 text-center font-normal text-gray-800 hover:text-black">
+                Leave History
+              </button>
+            </div>
+
+            <div class="p-4 space-y-4 text-[13px] text-gray-800">
+              <!-- Leave Type -->
+              <div>
+                <label class="block font-medium text-gray-900 mb-1.5">Leave Type<span class="text-red-500">*</span></label>
+                <div class="relative">
+                  <select class="w-full border border-gray-800 rounded-lg p-3 pr-9 appearance-none bg-white text-gray-900 focus:outline-none text-[13.5px]">
+                    <option selected>Duty Leave</option>
+                    <option>Medical Leave</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div>
+                <label class="block font-medium text-gray-900 mb-1.5">Category<span class="text-red-500">*</span></label>
+                <div class="relative">
+                  <select class="w-full border border-gray-800 rounded-lg p-3 pr-9 appearance-none bg-white text-gray-900 focus:outline-none text-[13.5px]">
+                    <option selected>3D printing workshop</option>
+                    <option>Hackathon / Coding Contest</option>
+                    <option>Cultural Event</option>
+                    <option>Sports Tournament</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event Name -->
+              <div>
+                <label class="block font-medium text-gray-900 mb-1.5">Event Name<span class="text-red-500">*</span></label>
+                <input type="text" placeholder="Enter Event Name" class="w-full border border-gray-800 rounded-lg p-3 text-[13.5px] focus:outline-none placeholder-gray-400 bg-white">
+              </div>
+
+              <!-- Start Date & End Date -->
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-medium text-gray-900 mb-1.5">Start Date<span class="text-red-500">*</span></label>
+                  <div class="relative">
+                    <input type="date" value="2026-09-23" class="w-full border border-gray-800 rounded-lg p-3 text-[13px] bg-white pr-9 focus:outline-none text-gray-700">
+                    <div class="absolute inset-y-0 right-2.5 flex items-center pointer-events-none text-gray-700">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" stroke-width="1.8"/>
+                        <path stroke-linecap="round" stroke-width="1.8" d="M16 2v4M8 2v4M3 10h18"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="block font-medium text-gray-900 mb-1.5">End Date<span class="text-red-500">*</span></label>
+                  <div class="relative">
+                    <input type="date" value="2026-09-24" class="w-full border border-gray-800 rounded-lg p-3 text-[13px] bg-white pr-9 focus:outline-none text-gray-700">
+                    <div class="absolute inset-y-0 right-2.5 flex items-center pointer-events-none text-gray-700">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="18" rx="2" stroke-width="1.8"/>
+                        <path stroke-linecap="round" stroke-width="1.8" d="M16 2v4M8 2v4M3 10h18"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Time Slot -->
+              <div>
+                <label class="block font-medium text-gray-900 mb-1.5">Time Slot<span class="text-red-500">*</span></label>
+                <div class="relative">
+                  <select class="w-full border border-gray-800 rounded-lg p-3 pr-9 appearance-none bg-white text-gray-900 focus:outline-none text-[13.5px]">
+                    <option selected>Full Day</option>
+                    <option>Half Day (Morning)</option>
+                    <option>Half Day (Evening)</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Apply Leave Button -->
+              <div class="pt-3">
+                <button onclick="showToast('Leave request submitted!'); closeSubScreen();" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white py-3 rounded-lg font-semibold text-[15px] shadow-xs active:scale-[0.99] transition">
+                  Apply Leave
+                </button>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      'fee-history': {
+        title: 'Fee Payment History',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="bg-white min-h-[580px] p-4 text-gray-900">
+            <!-- Student Circular Avatar -->
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full overflow-hidden border-2 border-gray-200 shadow-xs flex items-center justify-center bg-gray-100">
+              <img src="${STUDENT_DATA.photoUrl}" alt="Anurag Verma" class="w-full h-full object-cover student-photo-target" onerror="handleImgError(this)"/>
+            </div>
+
+            <!-- Fee Entries List -->
+            <div class="space-y-6 text-[13px]">
+              
+              <!-- Item 1 -->
+              <div class="flex items-start">
+                <span class="w-6 font-bold text-gray-900 text-[14px]">1.</span>
+                <div class="flex-1">
+                  <div class="flex justify-between items-baseline">
+                    <span class="font-bold text-gray-900 text-[13.5px]">Fee paid for cycle(s):</span>
+                    <span class="font-bold text-gray-900 text-[14.5px]">Rs. 20000.00</span>
+                  </div>
+                  <div class="text-gray-900 mt-0.5">Jul-Dec 2025 SEM 1st</div>
+                  <div class="text-gray-900 font-medium mt-0.5">Receipt No.: 25-26/CDN/02921</div>
+                  <div class="flex justify-between items-center mt-0.5">
+                    <span class="text-gray-900">Paid On: 29-05-2025</span>
+                    <button onclick="showToast('Downloading Receipt: 25-26/CDN/02921')" class="text-sky-500 hover:text-sky-600 font-normal">Print Receipt</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="flex items-start">
+                <span class="w-6 font-bold text-gray-900 text-[14px]">2.</span>
+                <div class="flex-1">
+                  <div class="flex justify-between items-baseline">
+                    <span class="font-bold text-gray-900 text-[13.5px]">Fee paid for cycle(s):</span>
+                    <span class="font-bold text-gray-900 text-[14.5px]">Rs. 100000.00</span>
+                  </div>
+                  <div class="text-gray-900 mt-0.5">Jul-Dec 2025 SEM 1st</div>
+                  <div class="text-gray-900 font-medium mt-0.5">Receipt No.: CU/PB/25-26/03046</div>
+                  <div class="flex justify-between items-center mt-0.5">
+                    <span class="text-gray-900">Paid On: 29-05-2025</span>
+                    <button onclick="showToast('Downloading Receipt: CU/PB/25-26/03046')" class="text-sky-500 hover:text-sky-600 font-normal">Print Receipt</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="flex items-start">
+                <span class="w-6 font-bold text-gray-900 text-[14px]">3.</span>
+                <div class="flex-1">
+                  <div class="flex justify-between items-baseline">
+                    <span class="font-bold text-gray-900 text-[13.5px]">Fee paid for cycle(s):</span>
+                    <span class="font-bold text-gray-900 text-[14.5px]">Rs. 20000.00</span>
+                  </div>
+                  <div class="text-gray-900 mt-0.5">Jan-June 2025 SEM 2nd</div>
+                  <div class="text-gray-900 font-medium mt-0.5">Receipt No.: EXPLR/1013/5230</div>
+                  <div class="flex justify-between items-center mt-0.5">
+                    <span class="text-gray-900">Paid On: 20-12-2025</span>
+                    <button onclick="showToast('Downloading Receipt: EXPLR/1013/5230')" class="text-sky-500 hover:text-sky-600 font-normal">Print Receipt</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="flex items-start">
+                <span class="w-6 font-bold text-gray-900 text-[14px]">4.</span>
+                <div class="flex-1">
+                  <div class="flex justify-between items-baseline">
+                    <span class="font-bold text-gray-900 text-[13.5px]">Fee paid for cycle(s):</span>
+                    <span class="font-bold text-gray-900 text-[14.5px]">Rs. 100000.00</span>
+                  </div>
+                  <div class="text-gray-900 mt-0.5">Jan-June 2025 SEM 2nd</div>
+                  <div class="text-gray-900 font-medium mt-0.5">Receipt No.: FR-43800-2012-330</div>
+                  <div class="flex justify-between items-center mt-0.5">
+                    <span class="text-gray-900">Paid On: 20-12-2025</span>
+                    <button onclick="showToast('Downloading Receipt: FR-43800-2012-330')" class="text-sky-500 hover:text-sky-600 font-normal">Print Receipt</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        `
+      },
+      'grade-card': {
+        title: 'Grade Card',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="bg-white min-h-[580px] p-3 text-gray-900 text-[11px] leading-tight">
+            <!-- Student Details Header -->
+            <div class="mb-3 border-b border-gray-200 pb-2 space-y-1.5">
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-gray-600 block text-[10.5px]">Name</span>
+                  <span class="font-bold text-[12px] text-gray-900">${STUDENT_DATA.name}</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-gray-600 block text-[10.5px]">Roll No.</span>
+                  <span class="font-bold text-[12px] text-gray-900">${STUDENT_DATA.rollNo}</span>
+                </div>
+              </div>
+              <div class="flex justify-between items-start pt-0.5">
+                <div>
+                  <span class="text-gray-600 block text-[10px]">Father's Name</span>
+                  <span class="font-semibold text-gray-900">MR. RAKESH KUMAR VERMA</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-gray-600 block text-[10px]">Mother's Name</span>
+                  <span class="font-semibold text-gray-900">MRS. NISHA VERMA</span>
+                </div>
+              </div>
+              <div>
+                <span class="text-gray-600 block text-[10px]">Class Name</span>
+                <span class="font-semibold text-gray-900">2025-BE-CSE-3 SEM 3 SEM</span>
+              </div>
+            </div>
+
+            <!-- Grades Table -->
+            <div class="border border-gray-300 rounded overflow-hidden">
+              <div class="grid grid-cols-12 bg-gray-100 border-b border-gray-300 font-bold text-gray-800 py-1.5 px-1 text-[10px]">
+                <div class="col-span-1 text-center">#</div>
+                <div class="col-span-3">Subject Code</div>
+                <div class="col-span-5">Subject Name</div>
+                <div class="col-span-2 text-right">Credits</div>
+                <div class="col-span-1 text-center">Grade</div>
+              </div>
+
+              <!-- Study Period 1 SEM -->
+              <div class="divide-y divide-gray-200 text-[9.5px]">
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">1</div><div class="col-span-3 font-mono">24APS0102</div><div class="col-span-5 pr-1 font-medium leading-tight">MODERN AND COMPUTATIONAL PHYSICS</div><div class="col-span-2 text-right">4.00</div><div class="col-span-1 text-center font-bold">B</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">2</div><div class="col-span-3 font-mono">24APS1101</div><div class="col-span-5 pr-1 font-medium leading-tight">CALCULUS AND STATISTICAL ANALYSIS</div><div class="col-span-2 text-right">4.00</div><div class="col-span-1 text-center font-bold">A</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">3</div><div class="col-span-3 font-mono">24CSE0101</div><div class="col-span-5 pr-1 font-medium leading-tight">PROBLEM SOLVING USING PYTHON PROGRAMMING</div><div class="col-span-2 text-right">5.00</div><div class="col-span-1 text-center font-bold">B</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">4</div><div class="col-span-3 font-mono">24CSE0102</div><div class="col-span-5 pr-1 font-medium leading-tight">FRONT END ENGINEERING-I</div><div class="col-span-2 text-right">5.00</div><div class="col-span-1 text-center font-bold text-emerald-700">O</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">5</div><div class="col-span-3 font-mono">24MOC0113</div><div class="col-span-5 pr-1 font-medium leading-tight">FINANCIAL ACCOUNTING - I</div><div class="col-span-2 text-right">2.00</div><div class="col-span-1 text-center font-bold text-emerald-700">O</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">6</div><div class="col-span-3 font-mono">24UNI0125</div><div class="col-span-5 pr-1 font-medium leading-tight">DISASTER MANAGEMENT</div><div class="col-span-2 text-right">0.00</div><div class="col-span-1 text-center font-bold text-emerald-700">O</div></div>
+              </div>
+
+              <!-- Sem 1 Footer -->
+              <div class="bg-gray-50 border-t border-b border-gray-300 py-1.5 px-2 flex justify-between font-bold text-[10px] text-gray-800">
+                <span>Study Period: 1 SEM</span>
+                <span>SGPA: 7.80 &nbsp;&nbsp;&nbsp; CGPA: 7.80</span>
+              </div>
+
+              <!-- Study Period 2 SEM -->
+              <div class="divide-y divide-gray-200 text-[9.5px]">
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">1</div><div class="col-span-3 font-mono">24APS2101</div><div class="col-span-5 pr-1 font-medium leading-tight">DIFFERENTIAL EQUATIONS AND TRANSFORMATIONS</div><div class="col-span-2 text-right">4.00</div><div class="col-span-1 text-center font-bold">A</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">2</div><div class="col-span-3 font-mono">24CSE0103</div><div class="col-span-5 pr-1 font-medium leading-tight">DIGITAL ELECTRONICS AND COMPUTER ARCHITECTURE</div><div class="col-span-2 text-right">4.00</div><div class="col-span-1 text-center font-bold">B</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">3</div><div class="col-span-3 font-mono">24CSE0105</div><div class="col-span-5 pr-1 font-medium leading-tight">OPERATING SYSTEM</div><div class="col-span-2 text-right">3.00</div><div class="col-span-1 text-center font-bold">A</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">4</div><div class="col-span-3 font-mono">24CSE0106</div><div class="col-span-5 pr-1 font-medium leading-tight">SOURCE CODE MANAGEMENT</div><div class="col-span-2 text-right">2.00</div><div class="col-span-1 text-center font-bold">A+</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">5</div><div class="col-span-3 font-mono">24CSE0107</div><div class="col-span-5 pr-1 font-medium leading-tight">FUNDAMENTALS OF C PROGRAMMING</div><div class="col-span-2 text-right">4.00</div><div class="col-span-1 text-center font-bold">B</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">6</div><div class="col-span-3 font-mono">24MOC0111</div><div class="col-span-5 pr-1 font-medium leading-tight">INDIAN KNOWLEDGE SYSTEM</div><div class="col-span-2 text-right">2.00</div><div class="col-span-1 text-center font-bold">A+</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">7</div><div class="col-span-3 font-mono">24MOC0124</div><div class="col-span-5 pr-1 font-medium leading-tight">FINANCIAL ACCOUNTING-II</div><div class="col-span-2 text-right">2.00</div><div class="col-span-1 text-center font-bold text-emerald-700">O</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">8</div><div class="col-span-3 font-mono">24UNI0106</div><div class="col-span-5 pr-1 font-medium leading-tight">ENVIRONMENTAL STUDIES</div><div class="col-span-2 text-right">2.00</div><div class="col-span-1 text-center font-bold">B</div></div>
+                <div class="grid grid-cols-12 py-1.5 px-1 items-center"><div class="col-span-1 text-center font-medium">9</div><div class="col-span-3 font-mono">25AI001</div><div class="col-span-5 pr-1 font-medium leading-tight">THE RUDIMENTS OF ARTIFICIAL INTELLIGENCE, CHATGPT, DEEPSEEK, GROK AND METAVERSE</div><div class="col-span-2 text-right">1.00</div><div class="col-span-1 text-center font-bold text-emerald-700">O</div></div>
+              </div>
+
+              <!-- Sem 2 Footer -->
+              <div class="bg-gray-50 border-t border-gray-300 py-1.5 px-2 flex justify-between font-bold text-[10px] text-gray-800">
+                <span>Study Period: 2 SEM</span>
+                <span>SGPA: 7.59 &nbsp;&nbsp;&nbsp; CGPA: 7.69</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      'apply-gatepass': {
+        title: 'Apply Gatepass',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="bg-white min-h-[580px] p-4 text-[13px] text-gray-800 space-y-4">
+            <!-- Name (Read-only greyed) -->
+            <div>
+              <label class="block font-bold text-gray-900 mb-1.5">Name</label>
+              <div class="w-full bg-[#f1f4f8] border border-gray-200 rounded-lg p-3 text-center font-bold text-[#475569] tracking-wide">
+                ${STUDENT_DATA.name}
+              </div>
+            </div>
+
+            <!-- Date (Read-only greyed) -->
+            <div>
+              <label class="block font-bold text-gray-900 mb-1.5">Date</label>
+              <div class="w-full bg-[#f1f4f8] border border-gray-200 rounded-lg p-3 text-left font-bold text-[#475569]">
+                09/23/2026
+              </div>
+            </div>
+
+            <!-- Time -->
+            <div>
+              <label class="block font-bold text-gray-900 mb-1.5">Time<span class="text-red-500">*</span></label>
+              <div class="relative">
+                <input type="text" value="11:51 AM" class="w-full border border-gray-800 rounded-lg p-3 text-[13.5px] bg-white pr-10 focus:outline-none text-gray-900">
+                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-700">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-width="2" d="M12 7v5l3 2"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reason/Remarks -->
+            <div>
+              <label class="block font-bold text-gray-900 mb-1.5">Reason/Remarks<span class="text-red-500">*</span></label>
+              <textarea rows="3.5" placeholder="Type your reason here..." class="w-full border border-gray-800 rounded-lg p-3 text-[13px] focus:outline-none bg-white placeholder-gray-400"></textarea>
+            </div>
+
+            <!-- Attach File(s) -->
+            <div>
+              <button onclick="document.getElementById('photo-file-input').click()" class="w-full border border-dashed border-gray-800 bg-[#eef5fc] rounded-lg py-3 flex items-center justify-center space-x-2 text-gray-800 font-medium active:bg-blue-100 transition">
+                <div class="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold leading-none">+</div>
+                <span class="text-[13.5px]">Attach File(s)</span>
+              </button>
+            </div>
+
+            <!-- Red Submit Button -->
+            <div class="pt-2">
+              <button onclick="showToast('Gate Pass requested successfully!'); closeSubScreen();" class="w-full bg-[#ef4444] hover:bg-[#dc2626] text-white py-3 rounded-lg font-semibold text-[15px] shadow-xs active:scale-[0.99] transition">
+                Apply Gate Pass
+              </button>
+            </div>
+          </div>
+        `
+      },
+      'details-gatepass': {
+        title: 'View Details Gatepass',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="bg-white min-h-[580px] flex flex-col">
+            <!-- Tabs -->
+            <div class="flex border-b border-gray-200 text-[14px]">
+              <button class="flex-1 py-3 text-center font-bold text-[#ef4444] border-b-2 border-[#ef4444]">
+                Pending Requests
+              </button>
+              <button onclick="showToast('No approved or historical requests found.')" class="flex-1 py-3 text-center font-normal text-gray-800 hover:text-black">
+                All Requests
+              </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-4 text-[13.5px] text-gray-800">
+              No pending gate pass requests found.
+            </div>
+          </div>
+        `
+      },
+      'time-table': {
+        title: 'Timetable',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => {
+          const days = [
+            { name: "Monday", today: false },
+            { name: "Tuesday", today: false },
+            { name: "Wednesday", today: false },
+            { name: "Thursday", today: false },
+            { name: "Friday", today: false },
+            { name: "Saturday (Today)", today: true }
+          ];
+          return `
+            <div class="bg-white min-h-[580px] p-4">
+              <!-- Center Header -->
+              <div class="text-center pt-1 pb-5">
+                <div class="text-[13.5px] text-gray-800 font-medium">2025-BE-CSE-3 SEM</div>
+                <div class="text-[14px] text-gray-900 mt-1">
+                  As on <strong class="font-bold text-gray-950">26-09-2026 (Saturday)</strong>
+                </div>
+              </div>
+
+              <!-- Day Cards -->
+              <div class="space-y-3">
+                ${days.map(d => `
+                  <button onclick="showToast('${d.name} schedule')" class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4 flex items-center justify-between text-[14px] font-medium text-gray-800 shadow-2xs active:bg-gray-50 active:scale-[0.99] transition">
+                    <span>${d.name}</span>
+                    <svg class="w-3.5 h-3.5 text-gray-800 fill-current -rotate-12" viewBox="0 0 24 24">
+                      <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+      },
+      'attendance': {
+        title: 'Attendance Subjectwise',
+        badge: '',
+        isPrivacy: false,
+        getHtml: () => {
+          const records = [
+            {
+              title: "Programming Abstractions using Java",
+              code: "24CSE0314",
+              teacher: "Anu Thind",
+              from: "25 Jun 2026",
+              to: "16 Sep 2026",
+              delivered: 42,
+              attended: 32,
+              absent: 10,
+              dl: 0,
+              ml: 0,
+              percentage: "76.19%",
+              approvedDl: 0,
+              approvedMl: 0
+            },
+            {
+              title: "Artificial Intelligence and Machine Learning",
+              code: "24CSE0316",
+              teacher: "DURGESH SRIVASTAVA",
+              from: "24 Jun 2026",
+              to: "23 Sep 2026",
+              delivered: 48,
+              attended: 34,
+              absent: 14,
+              dl: 0,
+              ml: 0,
+              percentage: "70.83%",
+              approvedDl: 0,
+              approvedMl: 0
+            },
+            {
+              title: "Algorithm Design & Implementation",
+              code: "24CSE0317",
+              teacher: "Manisha Thakur",
+              from: "24 Jun 2026",
+              to: "16 Sep 2026",
+              delivered: 110,
+              attended: 76,
+              absent: 34,
+              dl: 0,
+              ml: 0,
+              percentage: "69.09%",
+              approvedDl: 0,
+              approvedMl: 0
+            },
+            {
+              title: "System Design",
+              code: "24CSE0318",
+              teacher: "ANMOL RATTAN SINGH",
+              from: "24 Jun 2026",
+              to: "18 Aug 2026",
+              delivered: 28,
+              attended: 20,
+              absent: 8,
+              dl: 0,
+              ml: 0,
+              percentage: "71.43%",
+              approvedDl: 0,
+              approvedMl: 0
+            },
+            {
+              title: "Business Professional Communication",
+              code: "24UNI0133",
+              teacher: "JASBIR KAUR",
+              from: "30 Jun 2026",
+              to: "15 Sep 2026",
+              delivered: 44,
+              attended: 32,
+              absent: 12,
+              dl: 0,
+              ml: 0,
+              percentage: "72.73%",
+              approvedDl: 0,
+              approvedMl: 0
+            },
+            {
+              title: "Numerical Aptitude & Logical Reasoning - I (NALR-I)",
+              code: "25UNI0110",
+              teacher: "Prabhnoor Bachhal",
+              from: "25 Jun 2026",
+              to: "17 Sep 2026",
+              delivered: 40,
+              attended: 30,
+              absent: 10,
+              dl: 0,
+              ml: 0,
+              percentage: "75%",
+              approvedDl: 0,
+              approvedMl: 0
+            }
+          ];
+
+          return `
+            <div class="p-3 bg-gray-50/50 min-h-[580px] space-y-3 text-[11.5px] text-gray-800">
+              ${records.map(item => `
+                <div class="bg-white border border-gray-200/90 rounded-lg p-3 shadow-2xs">
+                  <!-- Subject Title and Code -->
+                  <div class="flex justify-between items-start pb-2 border-b border-gray-100">
+                    <span class="font-bold text-gray-900 text-[12.5px] leading-snug pr-2">${item.title}</span>
+                    <span class="font-bold text-gray-900 text-[12.5px] shrink-0 font-mono">${item.code}</span>
+                  </div>
+
+                  <!-- Details Table Rows -->
+                  <div class="divide-y divide-gray-100 pt-0.5 text-[11px]">
+                    <div class="py-1 flex">
+                      <span class="font-bold text-gray-900 w-16 shrink-0">Teacher :</span>
+                      <span class="text-gray-700">${item.teacher}</span>
+                    </div>
+                    <div class="py-1 flex items-center justify-between">
+                      <div><strong class="font-bold text-gray-900">From :</strong> <span class="text-gray-700">${item.from}</span></div>
+                      <div><strong class="font-bold text-gray-900">TO :</strong> <span class="text-gray-700">${item.to}</span></div>
+                    </div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Delivered :</strong> <span class="text-gray-700">${item.delivered}</span></div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Attended :</strong> <span class="text-gray-700">${item.attended}</span></div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Absent :</strong> <span class="text-gray-700">${item.absent}</span></div>
+                    <div class="py-1 flex space-x-6">
+                      <div><strong class="font-bold text-gray-900">DL :</strong> <span class="text-gray-700">${item.dl}</span></div>
+                      <div><strong class="font-bold text-gray-900">ML :</strong> <span class="text-gray-700">${item.ml}</span></div>
+                    </div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Total Percentage :</strong> <span class="text-gray-800 font-semibold">${item.percentage}</span></div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Total Approved DL :</strong> <span class="text-gray-700">${item.approvedDl}</span></div>
+                    <div class="py-1"><strong class="font-bold text-gray-900">Total Approved ML :</strong> <span class="text-gray-700">${item.approvedMl}</span></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        }
+      },
+      'subjects': {
+        title: 'Subjects',
+        badge: '6 Courses',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="p-4 space-y-2 text-xs">
+            <div class="p-3 border border-gray-200 bg-white rounded-xl">
+              <div class="font-bold text-gray-800">CS301 - Data Structures & Algorithms</div>
+              <div class="text-gray-500 text-[11px] mt-0.5">Faculty: Dr. R. Sharma • 4 Credits</div>
+            </div>
+            <div class="p-3 border border-gray-200 bg-white rounded-xl">
+              <div class="font-bold text-gray-800">CS302 - Database Management Systems</div>
+              <div class="text-gray-500 text-[11px] mt-0.5">Faculty: Prof. A. Mehta • 4 Credits</div>
+            </div>
+          </div>
+        `
+      },
+      'feedback-survey': {
+        title: 'Student Experience Survey',
+        badge: 'Active',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="p-4 space-y-4 text-xs">
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-900 leading-relaxed">
+              ⭐ Please share your valuable feedback for Semester 3 courses and faculty.
+            </div>
+            <div>
+              <label class="block font-bold text-gray-700 mb-1.5">How satisfied are you with course delivery?</label>
+              <select class="w-full border border-gray-300 rounded-lg p-2 bg-white text-gray-800">
+                <option>Excellent</option>
+                <option>Very Good</option>
+                <option>Good</option>
+                <option>Average</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-gray-700 mb-1.5">Comments & Suggestions</label>
+              <textarea rows="3" class="w-full border border-gray-300 rounded-lg p-2 text-gray-800" placeholder="Type your review..."></textarea>
+            </div>
+            <button onclick="showToast('Feedback submitted successfully!'); closeSubScreen();" class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-bold shadow-xs active:bg-blue-700">
+              Submit Survey
+            </button>
+          </div>
+        `
+      },
+      'no-dues': {
+        title: 'No Dues Verification',
+        badge: 'Status: Cleared',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="p-4 space-y-3 text-xs">
+            <div class="border border-emerald-200 bg-emerald-50 rounded-xl p-3.5">
+              <div class="flex items-center space-x-2 text-emerald-800 font-bold mb-1">
+                <span>✅</span> <span>All Department Clearance: 100% Complete</span>
+              </div>
+              <p class="text-[11px] text-emerald-700">No pending dues with Library, Accounts, Hostel, or Sports Dept.</p>
+            </div>
+            <div class="border border-gray-200 rounded-xl bg-white divide-y divide-gray-100 text-[11px]">
+              <div class="p-3 flex justify-between"><span>Central Library</span><span class="font-bold text-emerald-600">CLEARED</span></div>
+              <div class="p-3 flex justify-between"><span>Hostel & Mess</span><span class="font-bold text-emerald-600">CLEARED</span></div>
+              <div class="p-3 flex justify-between"><span>Accounts Office</span><span class="font-bold text-emerald-600">CLEARED</span></div>
+              <div class="p-3 flex justify-between"><span>Department Lab</span><span class="font-bold text-emerald-600">CLEARED</span></div>
+            </div>
+          </div>
+        `
+      },
+      'greetings': {
+        title: 'My Greetings',
+        badge: 'New Wishes',
+        isPrivacy: false,
+        getHtml: () => `
+          <div class="p-4 space-y-3 text-xs">
+            <div class="border border-blue-200 bg-blue-50/60 rounded-xl p-3.5">
+              <div class="font-bold text-blue-900 text-sm">🎉 Happy Engineer's Day!</div>
+              <p class="text-gray-600 mt-1 text-[11px]">Warm wishes from the Vice Chancellor & Dean, Chitkara University.</p>
+            </div>
+            <div class="border border-amber-200 bg-amber-50/60 rounded-xl p-3.5">
+              <div class="font-bold text-amber-900 text-sm">🎂 Birthday Wishes</div>
+              <p class="text-gray-600 mt-1 text-[11px]">Wishing you a very happy birthday on 22nd November, Anurag Verma!</p>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function openSubScreen(key) {
+      const data = SUB_SCREEN_CONTENTS[key];
+      if (!data) return;
+
+      const subHeader = document.getElementById('subscreen-header');
+      if (data.isPrivacy) {
+        subHeader.classList.add('hidden');
+      } else {
+        subHeader.classList.remove('hidden');
+        document.getElementById('subscreen-title').innerText = data.title;
+        const badge = document.getElementById('subscreen-badge');
+        if (data.badge) {
+          badge.innerText = data.badge;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+
+      document.getElementById('subscreen-body').innerHTML = data.getHtml();
+
+      const subScreen = document.getElementById('screen-subscreen');
+      subScreen.classList.remove('hidden');
+      subScreen.scrollTop = 0;
+    }
+
+    function closeSubScreen() {
+      document.getElementById('screen-subscreen').classList.add('hidden');
+    }
+
+    function switchTab(tabName) {
+      closeSubScreen();
+      document.getElementById('screen-personal-info').classList.add('hidden');
+
+      const screens = ['profile', 'timeline', 'messages', 'notifications', 'menu'];
+      screens.forEach(s => {
+        const el = document.getElementById(`screen-${s}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const targetScreen = document.getElementById(`screen-${tabName}`);
+      if (targetScreen) {
+        targetScreen.classList.remove('hidden');
+      }
+
+      const navButtons = document.querySelectorAll('.nav-item');
+      navButtons.forEach(btn => {
+        btn.classList.remove('text-sky-600', 'font-bold');
+        btn.classList.add('text-gray-500');
+      });
+
+      const activeBtn = document.getElementById(`nav-${tabName}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-gray-500');
+        activeBtn.classList.add('text-sky-600', 'font-bold');
+      }
+    }
+
+    function openPersonalInfo() {
+      const infoScreen = document.getElementById('screen-personal-info');
+      infoScreen.classList.remove('hidden');
+      infoScreen.scrollTop = 0;
+    }
+
+    function closePersonalInfo() {
+      document.getElementById('screen-personal-info').classList.add('hidden');
+    }
+
+    let toastTimer;
+    function showToast(message) {
+      const toast = document.getElementById('toast-box');
+      toast.innerText = message;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 2000);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      syncStudentData();
+      
+      // Register service worker for installable PWA behavior
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('Portal Service Worker Registered'))
+          .catch((err) => console.log('Service Worker registration skipped:', err));
+      }
+    });
+  </script>
+</body>
+</html>
