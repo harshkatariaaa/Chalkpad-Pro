@@ -129,7 +129,7 @@
     <main class="flex-1 relative overflow-hidden bg-[#fafafa]">
 
       <!-- Hidden file input to pick photo directly from device gallery -->
-      <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+      <!-- <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)"> -->
 
       <!-- ================= 1. PROFILE SCREEN ================= -->
       <section id="screen-profile" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 transition-opacity duration-150">
@@ -235,7 +235,7 @@
             </h3>
 
             <!-- Centered Photo (tap to change picture if desired) -->
-            <div class="w-[82px] h-[100px] bg-gray-100 rounded-lg overflow-hidden border border-gray-300 mx-auto mb-4 shadow-2xs cursor-pointer" onclick="document.getElementById('photo-file-input').click()" title="Tap to change / upload photo">
+            <div class="w-[82px] h-[100px] bg-gray-100 rounded-lg overflow-hidden border border-gray-300 mx-auto mb-4 shadow-2xs">
               <img 
                 src="student.png" 
                 alt="Student Photo" 
