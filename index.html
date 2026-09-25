@@ -1716,7 +1716,7 @@
       
       // Register service worker for installable PWA behavior
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('sw.js')
           .then(() => console.log('Portal Service Worker Registered'))
           .catch((err) => console.log('Service Worker registration skipped:', err));
       }
