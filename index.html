@@ -8,9 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#2563eb">
   <link rel="manifest" href="manifest.json">
-  <title>Chalkpad Pro</title>
-  <link rel="icon" type="image/jpeg" href="logo.jpeg">
-  <link rel="apple-touch-icon" href="logo.jpeg">
+  <title>Student Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,7 +127,7 @@
     <main class="flex-1 relative overflow-hidden bg-[#fafafa]">
 
       <!-- Hidden file input to pick photo directly from device gallery -->
-      <!-- <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)"> -->
+      <input type="file" id="photo-file-input" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
 
       <!-- ================= 1. PROFILE SCREEN ================= -->
       <section id="screen-profile" class="screen-view absolute inset-0 flex flex-col overflow-y-auto screen-scroll pb-16 transition-opacity duration-150">
@@ -235,7 +233,7 @@
             </h3>
 
             <!-- Centered Photo (tap to change picture if desired) -->
-            <div class="w-[82px] h-[100px] bg-gray-100 rounded-lg overflow-hidden border border-gray-300 mx-auto mb-4 shadow-2xs">
+            <div class="w-[82px] h-[100px] bg-gray-100 rounded-lg overflow-hidden border border-gray-300 mx-auto mb-4 shadow-2xs cursor-pointer" onclick="document.getElementById('photo-file-input').click()" title="Tap to change / upload photo">
               <img 
                 src="student.png" 
                 alt="Student Photo" 
@@ -839,8 +837,9 @@
     }
 
     function syncStudentData() {
-      localStorage.removeItem('student_photo_custom');
-STUDENT_DATA.photoUrl = "student.png";
+      const stored = localStorage.getItem('student_photo_custom');
+      if (stored) {
+        STUDENT_DATA.photoUrl = stored;
       }
 
       // Sync names & roll on headers
@@ -1689,21 +1688,14 @@ STUDENT_DATA.photoUrl = "student.png";
     }
 
     function openPersonalInfo() {
-  const infoScreen = document.getElementById('screen-personal-info');
-  if (infoScreen) {
-    infoScreen.classList.remove('hidden');
-    infoScreen.style.display = 'flex';
-    infoScreen.scrollTop = 0;
-  }
-}
+      const infoScreen = document.getElementById('screen-personal-info');
+      infoScreen.classList.remove('hidden');
+      infoScreen.scrollTop = 0;
+    }
 
-function closePersonalInfo() {
-  const infoScreen = document.getElementById('screen-personal-info');
-  if (infoScreen) {
-    infoScreen.classList.add('hidden');
-    infoScreen.style.display = 'none';
-  }
-}
+    function closePersonalInfo() {
+      document.getElementById('screen-personal-info').classList.add('hidden');
+    }
 
     let toastTimer;
     function showToast(message) {
@@ -1724,11 +1716,16 @@ function closePersonalInfo() {
       
       // Register service worker for installable PWA behavior
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
+        navigator.serviceWorker.register('./sw.js')
           .then(() => console.log('Portal Service Worker Registered'))
           .catch((err) => console.log('Service Worker registration skipped:', err));
       }
     });
+
+
+    const temp  = [10,20,50,10,50] ;
+
+
   </script>
 </body>
 </html>
