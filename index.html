@@ -8,7 +8,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#2563eb">
   <link rel="manifest" href="manifest.json">
-  <title>Student Portal</title>
+  <title>Chalkpad Pro</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
+  <link rel="apple-touch-icon" href="logo.jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1716,7 +1718,7 @@
       
       // Register service worker for installable PWA behavior
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
+        navigator.serviceWorker.register('sw.js')
           .then(() => console.log('Portal Service Worker Registered'))
           .catch((err) => console.log('Service Worker registration skipped:', err));
       }
