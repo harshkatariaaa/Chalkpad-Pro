@@ -1689,14 +1689,21 @@ STUDENT_DATA.photoUrl = "student.png";
     }
 
     function openPersonalInfo() {
-      const infoScreen = document.getElementById('screen-personal-info');
-      infoScreen.classList.remove('hidden');
-      infoScreen.scrollTop = 0;
-    }
+  const infoScreen = document.getElementById('screen-personal-info');
+  if (infoScreen) {
+    infoScreen.classList.remove('hidden');
+    infoScreen.style.display = 'flex';
+    infoScreen.scrollTop = 0;
+  }
+}
 
-    function closePersonalInfo() {
-      document.getElementById('screen-personal-info').classList.add('hidden');
-    }
+function closePersonalInfo() {
+  const infoScreen = document.getElementById('screen-personal-info');
+  if (infoScreen) {
+    infoScreen.classList.add('hidden');
+    infoScreen.style.display = 'none';
+  }
+}
 
     let toastTimer;
     function showToast(message) {
