@@ -1,6 +1,6 @@
 {
-  "name": "Student Portal",
-  "short_name": "Portal",
+  "name": "Chalkpad Pro",
+  "short_name": "Chalkpad Pro",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#2563eb",
@@ -8,13 +8,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "student.png",
+      "src": "logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "student.png",
+      "src": "logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
