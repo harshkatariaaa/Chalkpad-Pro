@@ -1,10 +1,10 @@
-const CACHE_NAME = 'chalkpad-pro-v2';
+const CACHE_NAME = 'chalkpad-pro-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './student.png',
-  './logo.jpeg'
+  './logo.png'
 ];
 
 self.addEventListener('install', (event) => {
