@@ -839,9 +839,8 @@
     }
 
     function syncStudentData() {
-      const stored = localStorage.getItem('student_photo_custom');
-      if (stored) {
-        STUDENT_DATA.photoUrl = stored;
+      localStorage.removeItem('student_photo_custom');
+STUDENT_DATA.photoUrl = "student.png";
       }
 
       // Sync names & roll on headers
